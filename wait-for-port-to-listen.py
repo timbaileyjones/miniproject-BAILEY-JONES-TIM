@@ -19,7 +19,6 @@ def wait_net_service(server, port, timeout=None):
 
     while True:
         s = socket.socket()
-        print "socket", socket
         try:
             if timeout:
                 next_timeout = end - now()
