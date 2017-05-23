@@ -7,8 +7,6 @@ IP_PERMISSIONS='[
     {"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}, 
     {"IpProtocol": "tcp", "FromPort": 80, "ToPort": 80, "IpRanges": [{"CidrIp": "0.0.0.0/0"}]}
 ]'
-if [ 1 = 1 ]
-then
 	chmod 600 *.pem 
 
 	AMAZON_IMAGE_ID=$(aws ec2 describe-images \
@@ -54,10 +52,9 @@ then
 		--output text)
 	echo "waiting for $INSTANCE_ID ..." 
 	aws ec2 wait instance-running --instance-ids $INSTANCE_ID
-fi
+	
 	PUBLIC_HOSTNAME=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicDnsName" --output text)
-if [ 1 = 1 ] 
-then
+
 	echo $INSTANCE_ID >> .instance_ids
 	echo "$INSTANCE_ID is accepting SSH connections under $PUBLIC_HOSTNAME"
 
@@ -74,7 +71,6 @@ then
 	ssh -i $KEY_FILE.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_HOSTNAME \
 		sudo chown -R ec2-user /usr/share/nginx/html
 
-fi
 echo installing content on $PUBLIC_HOSTNAME
 rsync -r -e "ssh -i $KEY_FILE.pem" $STATIC_SITE/* ec2-user@$PUBLIC_HOSTNAME:/usr/share/nginx/html/
 
