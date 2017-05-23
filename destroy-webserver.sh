@@ -22,5 +22,5 @@ then
     done
     rm .security_group_id 
 else 
-    echo No Security Groups to terminate...
+    echo No Security Groups to delete...
 fi
