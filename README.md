@@ -4,14 +4,20 @@
  * Installation of 'awscli'
  * Python interpreter (both 2 or 3 will work)
  * ssh/rsync 
- * working AWS account with credentials established in one of the following places
+
+## Configuration
+ * You must have a working AWS account with credentials established in one of the following places
    * 'aws configure' 
    * exported AWS_* environment variables
      (See set-amazon-environment.sh for sample)
-   * a *.pem file from your AWS account present in this directory
-   * The *.pem file must be named in the install-webserver.sh file as KEY_FILE, 
-     but without the *.pem suffix.  The one from my environment is included as a sample,
-     but will only work with my AWS credentials.
+
+Additionally, you must have a *.pem file from your AWS account present in this directory.
+The *.pem file must be named in the install-webserver.sh file as KEY_FILE, 
+but without the *.pem suffix.  The one from my environment is included as a sample,
+but will only work with my AWS credentials.
+
+Finally, these scripts will make a security group for the VMs it created.  
+You can change the name of it in the webserver.sh file.  The variable is called SECURITY_GROUP_NAME.
 
 ## Usage
  *  ./install-webserver.sh
