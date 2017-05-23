@@ -57,12 +57,14 @@ echo $INSTANCE_ID >> .instance_ids
 echo "$INSTANCE_ID is up at $PUBLIC_HOSTNAME"
 
 echo waiting for ssh daemon to listen to port 22
+set +e
 ./wait-for-port-to-listen.py $PUBLIC_HOSTNAME 22 30
 if [ $? -ne 0 ]
 then
 	echo "sshd isn't listening after 30 seconds, aborting...!"
 	exit 1
 fi
+set -e
 
 echo installing nginx on $PUBLIC_HOSTNAME
 ssh -i $KEY_FILE.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_HOSTNAME \
