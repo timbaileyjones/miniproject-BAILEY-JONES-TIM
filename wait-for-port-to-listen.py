@@ -12,25 +12,27 @@ def wait_net_service(server, port, timeout=None):
         @return: True of False, if timeout is None may return only True or
                  throw unhandled network exception
     """
-    s = socket.socket()
     if timeout:
         from time import time as now
         # time module is needed to calc timeout shared between two exceptions
         end = now() + timeout
 
     while True:
+        s = socket.socket()
+        print "socket", socket
         try:
             if timeout:
                 next_timeout = end - now()
                 if next_timeout < 0:
                     return False
                 else:
-            	    s.settimeout(next_timeout)
+                    s.settimeout(next_timeout)
             
             s.connect((server, port))
         
         except (socket.timeout) as err:
             # this exception occurs only if timeout is set
+            s.close()
             if timeout:
                 return False
       
@@ -38,8 +40,8 @@ def wait_net_service(server, port, timeout=None):
             # catch timeout exception from underlying network library
             # this one is different from socket.timeout
             time.sleep(1)
-        else:
             s.close()
+        else:
             return True
 
 if __name__ == '__main__':
