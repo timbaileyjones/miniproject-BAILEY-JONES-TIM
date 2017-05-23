@@ -22,7 +22,7 @@ if [ -f .security_group_ids ]
 then
     # in case there's ever more than one'
     # sort -u is to remove duplicate IDs
-    for sgid in `cat .security_group_id | sort -u `
+    for sgid in `cat .security_group_ids | sort -u `
     do
         echo deleting previous security group ID  $sgid
         aws ec2 delete-security-group --group-id $sgid
