@@ -34,7 +34,7 @@ SG_ID=$(aws ec2 describe-security-groups  \
 if [ -z $SG_ID -o $SG_ID = None ]
 then
 	echo "Couldn't find security group for $SECURITY_GROUP_NAME, creating one..."
-	SG_ID=$(aws ec2 create-security-group --group-name server-security-group --description "Server-Security-Group" --vpc-id $VPC_ID --output text)
+	SG_ID=$(aws ec2 create-security-group --group-name $SECURITY_GROUP_NAME --description "Server-Security-Group" --vpc-id $VPC_ID --output text)
 fi
 echo $SG_ID >> .security_group_id
 
