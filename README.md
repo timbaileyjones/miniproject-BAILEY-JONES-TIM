@@ -1,6 +1,6 @@
 # miniproject-BAILEY-JONES-TIM
 
-## Prequisites
+## Prerequisites
  * Installation of 'awscli'
  * Python interpreter (both 2 or 3 will work)
  * ssh/rsync 
