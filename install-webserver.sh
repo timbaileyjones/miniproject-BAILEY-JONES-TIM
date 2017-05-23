@@ -18,7 +18,6 @@ VPC_ID=$(aws ec2 describe-vpcs \
 	--filter "Name=isDefault, Values=true" \
 	--query "Vpcs[0].VpcId" \
 	--output text)
-echo $VPC_ID > .vpc_id
 
 SUBNET_ID=$(aws ec2 describe-subnets \
 	--filters "Name=vpc-id, Values=$VPC_ID" \
