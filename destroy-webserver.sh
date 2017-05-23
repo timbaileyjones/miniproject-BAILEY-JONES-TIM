@@ -9,7 +9,7 @@ then
     do
         echo terminating ec2 instance $instance_id
         aws ec2 terminate-instances --instance-ids $instance_id
-        instance_ids=" "$instance_id
+        instance_ids=$instance_ids" "$instance_id
     done
     echo waiting for the following instances to be terminated: $instance_ids
     aws ec2 wait instance-terminated --instance-ids $instance_ids
