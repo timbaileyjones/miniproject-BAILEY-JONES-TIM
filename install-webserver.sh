@@ -74,4 +74,13 @@ ssh -i $KEY_FILE.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_HOSTNAME \
 echo installing content on $PUBLIC_HOSTNAME
 rsync -r -e "ssh -i $KEY_FILE.pem" $STATIC_SITE/* ec2-user@$PUBLIC_HOSTNAME:/usr/share/nginx/html/
 
-
+echo checking to see if content is correctly installed.
+set +e
+curl -q http://$PUBLIC_HOSTNAME 2>&1 | grep Automation >/dev/null
+if [ $? -ne 0 ]
+then
+	echo "index.html at $PUBLIC_HOSTNAME didn't contain the word Automation"
+	exit 1
+fi
+echo "Web Server with content successfully deployed at http://$PUBLIC_HOSTNAME"
+exit 0
