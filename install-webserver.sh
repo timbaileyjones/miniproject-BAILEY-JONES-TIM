@@ -1,5 +1,5 @@
 #!/bin/bash -e
-set -x
+set -e
 KEY_FILE=us-east-2-ohio-key-pair
 STATIC_SITE=./static_site 
 SECURITY_GROUP_NAME=ohio-security-group
