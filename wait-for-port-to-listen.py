@@ -60,7 +60,6 @@ if __name__ == '__main__':
             print "timeout must be an integer"
             sys.exit(1)
     open = wait_net_service(server, port, timeout)
-    print "open:", open
     if open:
         sys.exit(0)
     else: 
