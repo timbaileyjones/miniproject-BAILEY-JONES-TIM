@@ -56,14 +56,19 @@ aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 PUBLIC_HOSTNAME=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicDnsName" --output text)
 
 echo $INSTANCE_ID >> .instance_ids
-echo "$INSTANCE_ID is accepting SSH connections under $PUBLIC_HOSTNAME"
+echo "$INSTANCE_ID is up at $PUBLIC_HOSTNAME"
 
+echo waiting for ssh daemon to listen to port 22
+./wait-for-port-to-listen.py $PUBLIC_HOSTNAME 22 30
+if [ $? -ne 0 ]
+then
+	echo "sshd isn't listening after 30 seconds, aborting...!"
+	exit 1
+fi
 
-sleep 20  # the instance sometimes isn't really ready yet.
 echo installing nginx on $PUBLIC_HOSTNAME
 ssh -i $KEY_FILE.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_HOSTNAME \
-	sudo yum -y install nginx
-
+	sudo yum -y install nginx 
 
 echo starting nginx on $PUBLIC_HOSTNAME
 ssh -i $KEY_FILE.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_HOSTNAME \
