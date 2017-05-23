@@ -34,12 +34,11 @@ if [ -z $SG_ID -o $SG_ID = None ]
 then
 	echo "Couldn't find security group for $SECURITY_GROUP_NAME, creating one..."
 	SG_ID=$(aws ec2 create-security-group --group-name $SECURITY_GROUP_NAME --description "Server-Security-Group" --vpc-id $VPC_ID --output text)
+	aws ec2 authorize-security-group-ingress \
+		--group-id $SG_ID \
+		--ip-permissions "$IP_PERMISSIONS" 
 fi
 echo $SG_ID >> .security_group_ids
-
-aws ec2 authorize-security-group-ingress \
-	--group-id $SG_ID \
-	--ip-permissions "$IP_PERMISSIONS" 
 
 INSTANCE_ID=$(aws ec2 run-instances \
 	--image-id $AMAZON_IMAGE_ID \
