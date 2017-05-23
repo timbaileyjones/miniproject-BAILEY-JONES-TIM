@@ -35,7 +35,7 @@ then
 	echo "Couldn't find security group for $SECURITY_GROUP_NAME, creating one..."
 	SG_ID=$(aws ec2 create-security-group --group-name $SECURITY_GROUP_NAME --description "Server-Security-Group" --vpc-id $VPC_ID --output text)
 fi
-echo $SG_ID >> .security_group_id
+echo $SG_ID >> .security_group_ids
 
 aws ec2 authorize-security-group-ingress \
 	--group-id $SG_ID \
