@@ -29,12 +29,12 @@ def wait_net_service(server, port, timeout=None):
             
             s.connect((server, port))
         
-        except socket.timeout, err:
+        except (socket.timeout) as err:
             # this exception occurs only if timeout is set
             if timeout:
                 return False
       
-        except socket.error, err:
+        except (socket.error) as err:
             # catch timeout exception from underlying network library
             # this one is different from socket.timeout
             time.sleep(1)
@@ -44,20 +44,20 @@ def wait_net_service(server, port, timeout=None):
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print "Usage: %s server-name port-number timeout" % sys.argv[0]
+        print("Usage: %s server-name port-number timeout" % sys.argv[0])
         sys.exit(1)
     server = sys.argv[1]
     try:
         port = int(sys.argv[2])
     except:
-        print "port number must be an integer"
+        print("port number must be an integer")
         sys.exit(1)
     timeout = None
     if len(sys.argv) == 4:
         try:
             timeout = int(sys.argv[3])
         except:
-            print "timeout must be an integer"
+            print("timeout must be an integer")
             sys.exit(1)
     open = wait_net_service(server, port, timeout)
     if open:
